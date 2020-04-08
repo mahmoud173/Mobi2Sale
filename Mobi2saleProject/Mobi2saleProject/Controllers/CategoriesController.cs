@@ -6,10 +6,11 @@ using Entities.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Mobi2saleProject.Dtos;
 
 namespace Mobi2saleProject.Controllers
 {
-    [Route("api/[controller]")]
+    
     [ApiController]
     public class CategoriesController : ControllerBase
     {
@@ -25,8 +26,24 @@ namespace Mobi2saleProject.Controllers
         {
             try
             {
-                var CategoriesData = await Db.TblCategories.ToListAsync();
-                return Ok(CategoriesData);
+                var categoriesData = (await Db.TblCategories.Select(c => new CategoriesDto
+                {
+                    pk_Categories_Id = c.PkCategoriesId,
+                    Name = c.Name,
+                    Description = c.Description,
+                    ImageUrl = c.ImageUrl,
+                    IsDeleted = (bool)c.IsDeleted,
+
+                    SubCategories = c.TblSubCategories.Select(j => new SubCategory()
+                    {
+                        pk_SubCategories_Id = j.PkSubCategoriesId,
+                        Name = j.Name,
+
+                    }).ToList()
+
+                }).ToListAsync());
+
+                return Ok(categoriesData);
             }
             catch (Exception )
             {
