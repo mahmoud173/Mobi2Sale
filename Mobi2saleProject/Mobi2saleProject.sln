@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.902
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mobi2saleProject", "Mobi2saleProject\Mobi2saleProject.csproj", "{3CFB05C9-A6BF-44AD-B19B-85F83A3CD666}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{B6D7169B-0AC8-4CCA-84E7-959DC736CECF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3CFB05C9-A6BF-44AD-B19B-85F83A3CD666}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CFB05C9-A6BF-44AD-B19B-85F83A3CD666}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CFB05C9-A6BF-44AD-B19B-85F83A3CD666}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CFB05C9-A6BF-44AD-B19B-85F83A3CD666}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6D7169B-0AC8-4CCA-84E7-959DC736CECF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6D7169B-0AC8-4CCA-84E7-959DC736CECF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6D7169B-0AC8-4CCA-84E7-959DC736CECF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6D7169B-0AC8-4CCA-84E7-959DC736CECF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E1FBA8E6-D22A-497F-9264-CEE1F20E246F}
+	EndGlobalSection
+EndGlobal
