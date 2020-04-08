@@ -3584,11 +3584,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Mobi2saleProject\\Entities\\Entities.csproj",
+      "projectUniqueName": "C:\\Users\\Mahmoud Ali\\mygithub\\Mobi2Sale\\Mobi2saleProject\\Entities\\Entities.csproj",
       "projectName": "Entities",
-      "projectPath": "D:\\Mobi2saleProject\\Entities\\Entities.csproj",
+      "projectPath": "C:\\Users\\Mahmoud Ali\\mygithub\\Mobi2Sale\\Mobi2saleProject\\Entities\\Entities.csproj",
       "packagesPath": "C:\\Users\\Mahmoud Ali\\.nuget\\packages\\",
-      "outputPath": "D:\\Mobi2saleProject\\Entities\\obj\\",
+      "outputPath": "C:\\Users\\Mahmoud Ali\\mygithub\\Mobi2Sale\\Mobi2saleProject\\Entities\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

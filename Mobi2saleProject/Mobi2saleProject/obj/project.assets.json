@@ -12557,11 +12557,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Mobi2saleProject\\Mobi2saleProject\\Mobi2saleProject.csproj",
+      "projectUniqueName": "C:\\Users\\Mahmoud Ali\\mygithub\\Mobi2Sale\\Mobi2saleProject\\Mobi2saleProject\\Mobi2saleProject.csproj",
       "projectName": "Mobi2saleProject",
-      "projectPath": "D:\\Mobi2saleProject\\Mobi2saleProject\\Mobi2saleProject.csproj",
+      "projectPath": "C:\\Users\\Mahmoud Ali\\mygithub\\Mobi2Sale\\Mobi2saleProject\\Mobi2saleProject\\Mobi2saleProject.csproj",
       "packagesPath": "C:\\Users\\Mahmoud Ali\\.nuget\\packages\\",
-      "outputPath": "D:\\Mobi2saleProject\\Mobi2saleProject\\obj\\",
+      "outputPath": "C:\\Users\\Mahmoud Ali\\mygithub\\Mobi2Sale\\Mobi2saleProject\\Mobi2saleProject\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -12580,8 +12580,8 @@
       "frameworks": {
         "netcoreapp2.1": {
           "projectReferences": {
-            "D:\\Mobi2saleProject\\Entities\\Entities.csproj": {
-              "projectPath": "D:\\Mobi2saleProject\\Entities\\Entities.csproj"
+            "C:\\Users\\Mahmoud Ali\\mygithub\\Mobi2Sale\\Mobi2saleProject\\Entities\\Entities.csproj": {
+              "projectPath": "C:\\Users\\Mahmoud Ali\\mygithub\\Mobi2Sale\\Mobi2saleProject\\Entities\\Entities.csproj"
             }
           }
         }
