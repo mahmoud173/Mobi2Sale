@@ -58,6 +58,8 @@ namespace Mobi2saleProject.Controllers
 
                 };
                 Db.TblOrders.Add(orderData);
+
+
                 if (orderData.TblOrderDetails != null)
                 {
 
@@ -112,14 +114,11 @@ namespace Mobi2saleProject.Controllers
 
             try
             {
-                List<OrderDetails> itemdata = new List<OrderDetails>();
                 var ClientIdentityId = User.FindFirstValue(ClaimTypes.NameIdentifier);// will give the user's userId
-
                 // var ClientIdentityId = User.Identity.GetUserId();
                 Guid clientId = (await Db.TblClient.FirstOrDefaultAsync(o => o.IdentityId == ClientIdentityId)).PkClientId;
                 var clientOrders = (await Db.TblOrders.Where(o => o.FkClientsOrdersClientId == clientId).OrderByDescending(o => o.OrderNo).Select(o => new ClientOrderListDto()
                 {
-
                     OrderId = o.PkOrdersId,
                     Order_Date = o.OrderDate,
                     TotalAmount = o.TotalAmount,
@@ -129,13 +128,11 @@ namespace Mobi2saleProject.Controllers
                     OrderNo = o.OrderNo,
                 }).ToListAsync());
                 return Ok(clientOrders);
-
             }
             catch (Exception)
             {
                 return BadRequest();
             }
-               
         }
 
         [HttpGet]
@@ -254,20 +251,16 @@ namespace Mobi2saleProject.Controllers
                         Quantity = 1,
 
                     };
-
                     Db.TblOrderDetails.Add(orderDetailsData);
 
                     await Db.SaveChangesAsync();
 
                     return Ok(new { message = " Your Order Has Been Placed Successfully :) " });
-
                 }
                 else
                 {
                     return BadRequest(" Something Went Wrong :( ");
                 }
-
-
             }
             catch (Exception)
             {
@@ -303,9 +296,6 @@ namespace Mobi2saleProject.Controllers
                 await Db.SaveChangesAsync();
 
                 return Ok();
-
-            
-
         }
 
 
@@ -332,8 +322,6 @@ namespace Mobi2saleProject.Controllers
             }
 
         }
-
-
         [HttpDelete]
         [Route("api/Orders/DeleteItemFromCart/{orderId}")]
         public async Task<IActionResult> DeleteItemFromCart(Guid orderId)
@@ -350,16 +338,12 @@ namespace Mobi2saleProject.Controllers
                 await Db.SaveChangesAsync();
 
                 return Ok(new { message = " item Has Been Removed From Cart Successfully :) " });
-
-
             }
             catch (Exception)
             {
 
                 return BadRequest(" Somting Went Wrong :( ");
             }
-
-
         }
     }
 }

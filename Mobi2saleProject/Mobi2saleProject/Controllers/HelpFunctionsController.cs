@@ -13,9 +13,17 @@ namespace Mobi2saleProject.Controllers
     public class HelpFunctionsController : ControllerBase
     {
         private readonly Mobi2saleContext Db;
+
+        public HelpFunctionsController()
+        {
+        }
+
         public HelpFunctionsController(Mobi2saleContext DbContext)
         {
             Db = DbContext;
         }
+
+   
+
     }
 }
