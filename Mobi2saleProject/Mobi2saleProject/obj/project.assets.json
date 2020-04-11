@@ -4621,7 +4621,8 @@
         "framework": ".NETCoreApp,Version=v2.1",
         "dependencies": {
           "Microsoft.EntityFrameworkCore.Design": "2.1.1",
-          "Microsoft.EntityFrameworkCore.SqlServer": "2.1.1"
+          "Microsoft.EntityFrameworkCore.SqlServer": "2.1.1",
+          "Microsoft.Extensions.Identity.Stores": "2.1.1"
         },
         "compile": {
           "bin/placeholder/Entities.dll": {}
@@ -12546,6 +12547,7 @@
       "Microsoft.AspNetCore.Razor.Design >= 2.1.2",
       "Microsoft.EntityFrameworkCore.Design >= 2.1.1",
       "Microsoft.EntityFrameworkCore.SqlServer >= 2.1.1",
+      "Microsoft.Extensions.Identity.Stores >= 2.1.1",
       "Microsoft.NETCore.App >= 2.1.0",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 2.1.9"
     ]
@@ -12611,6 +12613,10 @@
             "version": "[2.1.1, )"
           },
           "Microsoft.EntityFrameworkCore.SqlServer": {
+            "target": "Package",
+            "version": "[2.1.1, )"
+          },
+          "Microsoft.Extensions.Identity.Stores": {
             "target": "Package",
             "version": "[2.1.1, )"
           },

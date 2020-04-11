@@ -20,3 +20,6 @@ C:\Users\Mahmoud Ali\mygithub\Mobi2Sale\Mobi2saleProject\Entities\obj\Debug\netc
 C:\Users\Mahmoud Ali\mygithub\Mobi2Sale\Mobi2saleProject\Entities\obj\Debug\netcoreapp2.1\Entities.AssemblyInfo.cs
 C:\Users\Mahmoud Ali\mygithub\Mobi2Sale\Mobi2saleProject\Entities\obj\Debug\netcoreapp2.1\Entities.dll
 C:\Users\Mahmoud Ali\mygithub\Mobi2Sale\Mobi2saleProject\Entities\obj\Debug\netcoreapp2.1\Entities.pdb
+C:\Users\Mahmoud Ali\mygithub\Mobi2Sale\Mobi2saleProject\Entities\bin\Debug\netcoreapp2.1\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\Mahmoud Ali\mygithub\Mobi2Sale\Mobi2saleProject\Entities\bin\Debug\netcoreapp2.1\Microsoft.AspNetCore.Identity.EntityFrameworkCore.xml
+C:\Users\Mahmoud Ali\mygithub\Mobi2Sale\Mobi2saleProject\Entities\obj\Debug\netcoreapp2.1\Entities.csproj.CopyComplete

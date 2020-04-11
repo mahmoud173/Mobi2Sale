@@ -1,10 +1,11 @@
 ﻿using System;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Entities.Model
 {
-    public partial class Mobi2saleContext : DbContext
+    public partial class Mobi2saleContext : IdentityDbContext
     {
         public Mobi2saleContext()
         {
@@ -72,6 +73,8 @@ namespace Entities.Model
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<AspNetRoleClaims>(entity =>
             {
                 entity.HasIndex(e => e.RoleId);
