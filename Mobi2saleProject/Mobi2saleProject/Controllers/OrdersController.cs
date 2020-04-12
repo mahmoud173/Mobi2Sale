@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Entities.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using Mobi2saleProject.Dtos;
 
 namespace Mobi2saleProject.Controllers
 {
+    [Authorize]
     [ApiController]
     public class OrdersController : ControllerBase
     {
@@ -57,7 +59,8 @@ namespace Mobi2saleProject.Controllers
                     OrderNo = data.OrderNo = Db.TblOrders.Count() + 1,
 
                 };
-                Db.TblOrders.Add(orderData);
+
+                 await Db.TblOrders.AddAsync(orderData);
 
 
                 if (orderData.TblOrderDetails != null)
@@ -90,7 +93,7 @@ namespace Mobi2saleProject.Controllers
                             ModifiedAt = item.ModifiedAt = DateTime.Now,
                             ModifiedBy = item.ModifiedBy = ClientIdentityId
                         };
-                        Db.TblOrderDetails.Add(orderDetailsData);
+                       await Db.TblOrderDetails.AddAsync(orderDetailsData);
                     }
 
                 }
@@ -98,9 +101,9 @@ namespace Mobi2saleProject.Controllers
                 return Ok(new { message = " Your order has been placed successfully :)  With OrderNo : (" + data.OrderNo + ")" });
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
 
                
@@ -117,7 +120,9 @@ namespace Mobi2saleProject.Controllers
                 var ClientIdentityId = User.FindFirstValue(ClaimTypes.NameIdentifier);// will give the user's userId
                 // var ClientIdentityId = User.Identity.GetUserId();
                 Guid clientId = (await Db.TblClient.FirstOrDefaultAsync(o => o.IdentityId == ClientIdentityId)).PkClientId;
-                var clientOrders = (await Db.TblOrders.Where(o => o.FkClientsOrdersClientId == clientId).OrderByDescending(o => o.OrderNo).Select(o => new ClientOrderListDto()
+                var clientOrders = (await Db.TblOrders.
+                Where(o => o.FkClientsOrdersClientId == clientId).OrderByDescending(o => o.OrderNo).
+                Select(o => new ClientOrderListDto()
                 {
                     OrderId = o.PkOrdersId,
                     Order_Date = o.OrderDate,
@@ -129,11 +134,14 @@ namespace Mobi2saleProject.Controllers
                 }).ToListAsync());
                 return Ok(clientOrders);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
+
+
+
 
         [HttpGet]
         [Route("api/Orders/ViewClientOrderDetails/{orderId}")]
@@ -147,7 +155,8 @@ namespace Mobi2saleProject.Controllers
             {
                 Guid id = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-                var orderDetails = (await Db.TblOrderDetails.Where(o => o.OrderId == orderId).Select(o => new ViewOrderDetailsDto()
+                var orderDetails = (await Db.TblOrderDetails.Where(o => o.OrderId == orderId).
+                Select(o => new ViewOrderDetailsDto()
                 {
 
                     OrderDetailId = o.PkOrderDetailsId,
@@ -160,9 +169,9 @@ namespace Mobi2saleProject.Controllers
                 }).ToListAsync());
                 return Ok(orderDetails);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
 
                     
@@ -176,7 +185,7 @@ namespace Mobi2saleProject.Controllers
             try
             {
                 var ClientIdentityId = User.FindFirstValue(ClaimTypes.NameIdentifier);// will give the user's userId
-                                                                                      // var ClientIdentityId = User.Identity.GetUserId();
+               // var ClientIdentityId = User.Identity.GetUserId();
                 var cartOrderId = (await Db.TblOrders.FirstOrDefaultAsync(c => c.OrderIsOrder == false && c.CreatedBy == ClientIdentityId));
 
                 if (cartOrderId == null)
@@ -202,8 +211,7 @@ namespace Mobi2saleProject.Controllers
                         OrderIsPaid = data.Order_IsPaid = false,
                     };
 
-                    Db.TblOrders.Add(orderData);
-
+                    await Db.TblOrders.AddAsync(orderData);
                     await Db.SaveChangesAsync();
 
                     var orderDetailsData = new TblOrderDetails
@@ -217,25 +225,18 @@ namespace Mobi2saleProject.Controllers
                         ModifiedBy = data.ModifiedBy = ClientIdentityId,
                         Quantity = 1, //??
                     };
-
-                    Db.TblOrderDetails.Add(orderDetailsData);
+                    await Db.TblOrderDetails.AddAsync(orderDetailsData);
                     await Db.SaveChangesAsync();
                     return Ok(new { message = " Your Order Has Been Placed Successfully :) " });
-
                 }
                 else if (cartOrderId != null)
                 {
-
                     var editeOrder = (await Db.TblOrders.FirstOrDefaultAsync(o => o.PkOrdersId == cartOrderId.PkOrdersId && o.OrderIsOrder != true));
-
-
                     editeOrder.OrderDate = data.Order_Date = DateTime.Now;
                     editeOrder.TotalAmount = data.TotalAmount;
                     editeOrder.TotalCost = data.TotalCost;
                     editeOrder.ModifiedAt = data.ModifiedAt = DateTime.Now;
                     editeOrder.ModifiedBy = data.ModifiedBy = data.ModifiedBy = ClientIdentityId;
-
-
                     await Db.SaveChangesAsync();
 
 
@@ -251,10 +252,8 @@ namespace Mobi2saleProject.Controllers
                         Quantity = 1,
 
                     };
-                    Db.TblOrderDetails.Add(orderDetailsData);
-
+                    await Db.TblOrderDetails.AddAsync(orderDetailsData);
                     await Db.SaveChangesAsync();
-
                     return Ok(new { message = " Your Order Has Been Placed Successfully :) " });
                 }
                 else
@@ -262,10 +261,10 @@ namespace Mobi2saleProject.Controllers
                     return BadRequest(" Something Went Wrong :( ");
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                return NotFound();
+                return BadRequest(ex.Message);
             }
             
         }
@@ -275,26 +274,17 @@ namespace Mobi2saleProject.Controllers
         [Route("api/Orders/EditItemQuantityInCart")]
         public async Task<IActionResult> EditItemQuantityInCart(EditOrderQuantityDto data)
         {
-
-            var ClientIdentityId = User.FindFirstValue(ClaimTypes.NameIdentifier);// will give the user's userId
-
-          //  var ClientIdentityId = User.Identity.GetUserId();
-
+                var ClientIdentityId = User.FindFirstValue(ClaimTypes.NameIdentifier);// will give the user's userId
+              //  var ClientIdentityId = User.Identity.GetUserId();
                 var orderDetailsData = await Db.TblOrderDetails.FirstOrDefaultAsync(o => o.PkOrderDetailsId == data.orderDetailId);
-
                 orderDetailsData.ModifiedAt = data.ModifiedAt = DateTime.Now;
                 orderDetailsData.ModifiedBy = data.ModifiedBy = ClientIdentityId;
                 orderDetailsData.Quantity = data.Quantity;
-
                 await Db.SaveChangesAsync();
-
                 var orderData = await Db.TblOrders.FirstOrDefaultAsync(o => o.PkOrdersId == data.orderId);
-
                 orderData.TotalAmount = data.TotalAmount;
                 orderData.TotalCost = data.TotalCost;
-
                 await Db.SaveChangesAsync();
-
                 return Ok();
         }
 
@@ -315,10 +305,10 @@ namespace Mobi2saleProject.Controllers
                 await Db.SaveChangesAsync();
                 return Ok(new { message = " Your Order Has Been Placed Successfully :) " });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                return BadRequest(" Somting Went Wrong :( ");
+                return BadRequest(ex.Message);
             }
 
         }
@@ -331,18 +321,15 @@ namespace Mobi2saleProject.Controllers
                 var orderdetailsData = (await Db.TblOrderDetails.FirstOrDefaultAsync(o => o.OrderId == orderId));
                 Db.TblOrderDetails.Remove(orderdetailsData);
                 await Db.SaveChangesAsync();
-
-
                 var orderData = await Db.TblOrders.FirstOrDefaultAsync(o => o.PkOrdersId == orderId);
                 Db.TblOrders.Remove(orderData);
                 await Db.SaveChangesAsync();
-
                 return Ok(new { message = " item Has Been Removed From Cart Successfully :) " });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                return BadRequest(" Somting Went Wrong :( ");
+                return BadRequest(ex.Message);
             }
         }
     }

@@ -42,7 +42,7 @@ namespace Entities.Model
         public decimal Bonus { get; set; }
 
         public LkpDistricts FkClientsDistrictsDistrict { get; set; }
-        public AspNetUsers Identity { get; set; }
+       /// public AspNetUsers Identity { get; set; }
         public TblSalesAreaClients TblSalesAreaClients { get; set; }
         public ICollection<TblClientAccounts> TblClientAccounts { get; set; }
         public ICollection<TblFavorites> TblFavorites { get; set; }

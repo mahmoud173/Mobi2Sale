@@ -31,7 +31,8 @@ namespace Mobi2saleProject.Controllers
             {
                 if ((string.IsNullOrEmpty(filter) || string.IsNullOrWhiteSpace(filter))||(!string.IsNullOrEmpty(filter) || !string.IsNullOrWhiteSpace(filter)))
                 {
-                    var data = (await Db.TblSubCategories.Where(c => c.FkCategoriesSubCategoriesCategoryId == categoryId && c.IsDeleted != true).Select(c => new SubCategoriesDto()
+                    var data = (await Db.TblSubCategories.Where(c => c.FkCategoriesSubCategoriesCategoryId == categoryId && c.IsDeleted != true).
+                    Select(c => new SubCategoriesDto()
                     {
                         pk_Subcategories_Id = c.PkSubCategoriesId,
                         Name = c.Name,
@@ -39,8 +40,6 @@ namespace Mobi2saleProject.Controllers
                         ImageUrl = c.ImageUrl,
                         fk_Categories_subCategories_CategoryId = c.FkCategoriesSubCategoriesCategoryId,
                         IsDeleted =(bool) c.IsDeleted
-
-
                     }).ToListAsync());
 
                     return Ok(data);
@@ -51,10 +50,10 @@ namespace Mobi2saleProject.Controllers
                 }
 
             }
-            catch (Exception )
+            catch (Exception ex)
             {
 
-                return NotFound();
+                return BadRequest(ex.Message);
             }
 
         }

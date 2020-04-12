@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Entities.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +11,7 @@ using Mobi2saleProject.Dtos;
 
 namespace Mobi2saleProject.Controllers
 {
-    
+    [Authorize]
     [ApiController]
     public class CategoriesController : ControllerBase
     {

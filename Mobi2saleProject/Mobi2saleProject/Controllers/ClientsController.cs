@@ -33,7 +33,7 @@ namespace Mobi2saleProject.Controllers
                 HelpFunctionsController helpFunction = new HelpFunctionsController();
                 var IdentityClientId = User.FindFirstValue(ClaimTypes.NameIdentifier);// will give the user's userId
                   // var IdentityClientId = User.Identity.GetUserId();
-                var IdentityEmail = await Db.AspNetUsers.FirstOrDefaultAsync(q => q.Id == IdentityClientId);
+              //  var IdentityEmail = await Db.AspNetUsers.FirstOrDefaultAsync(q => q.Id == IdentityClientId);
                 var clientData = await Db.TblClient.FirstOrDefaultAsync(c => c.IdentityId == IdentityClientId);
                 clientData.Name = data.Name;
                 clientData.ManagerName = data.ManagerName;
@@ -41,7 +41,7 @@ namespace Mobi2saleProject.Controllers
                 clientData.Mobile2 = data.Mobile2;
                 clientData.Phone = data.Phone;
                 clientData.Email = data.Email;
-                IdentityEmail.Email = data.Email;
+              //  IdentityEmail.Email = data.Email;
                 clientData.Fax = data.Fax;
                 clientData.ModifiedAt = DateTime.Now;
                 clientData.ModifiedBy = IdentityClientId;

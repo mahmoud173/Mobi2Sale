@@ -1,11 +1,12 @@
 ﻿using System;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Entities.Model
 {
-    public partial class Mobi2saleContext : IdentityDbContext
+    public partial class Mobi2saleContext : IdentityDbContext<IdentityUser>
     {
         public Mobi2saleContext()
         {
@@ -16,13 +17,7 @@ namespace Entities.Model
         {
         }
 
-        public virtual DbSet<AspNetRoleClaims> AspNetRoleClaims { get; set; }
-        public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
-        public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
-        public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
-        public virtual DbSet<AspNetUserRoles> AspNetUserRoles { get; set; }
-        public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
-        public virtual DbSet<AspNetUserTokens> AspNetUserTokens { get; set; }
+      
         public virtual DbSet<Forcasts> Forcasts { get; set; }
         public virtual DbSet<LkpCountries> LkpCountries { get; set; }
         public virtual DbSet<LkpDistricts> LkpDistricts { get; set; }
@@ -75,112 +70,13 @@ namespace Entities.Model
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<AspNetRoleClaims>(entity =>
-            {
-                entity.HasIndex(e => e.RoleId);
+          
 
-                entity.Property(e => e.RoleId).IsRequired();
+          
 
-                entity.HasOne(d => d.Role)
-                    .WithMany(p => p.AspNetRoleClaims)
-                    .HasForeignKey(d => d.RoleId);
-            });
-
-            modelBuilder.Entity<AspNetRoles>(entity =>
-            {
-                entity.HasIndex(e => e.NormalizedName)
-                    .HasName("RoleNameIndex")
-                    .IsUnique()
-                    .HasFilter("([NormalizedName] IS NOT NULL)");
-
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
-                entity.Property(e => e.Name).HasMaxLength(256);
-
-                entity.Property(e => e.NormalizedName).HasMaxLength(256);
-            });
-
-            modelBuilder.Entity<AspNetUserClaims>(entity =>
-            {
-                entity.HasIndex(e => e.UserId);
-
-                entity.Property(e => e.UserId).IsRequired();
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.AspNetUserClaims)
-                    .HasForeignKey(d => d.UserId);
-            });
-
-            modelBuilder.Entity<AspNetUserLogins>(entity =>
-            {
-                entity.HasKey(e => new { e.LoginProvider, e.ProviderKey });
-
-                entity.HasIndex(e => e.UserId);
-
-                entity.Property(e => e.UserId).IsRequired();
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.AspNetUserLogins)
-                    .HasForeignKey(d => d.UserId);
-            });
-
-            modelBuilder.Entity<AspNetUserRoles>(entity =>
-            {
-                entity.HasKey(e => new { e.UserId, e.RoleId });
-
-                entity.HasIndex(e => e.RoleId);
-
-                entity.HasOne(d => d.Role)
-                    .WithMany(p => p.AspNetUserRoles)
-                    .HasForeignKey(d => d.RoleId);
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.AspNetUserRoles)
-                    .HasForeignKey(d => d.UserId);
-            });
-
-            modelBuilder.Entity<AspNetUsers>(entity =>
-            {
-                entity.HasIndex(e => e.NormalizedEmail)
-                    .HasName("EmailIndex");
-
-                entity.HasIndex(e => e.NormalizedUserName)
-                    .HasName("UserNameIndex")
-                    .IsUnique()
-                    .HasFilter("([NormalizedUserName] IS NOT NULL)");
-
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
-                entity.Property(e => e.ApplicationName).IsRequired();
-
-                entity.Property(e => e.CraetedAt).HasDefaultValueSql("('2020-04-07T01:01:37.5260826+02:00')");
-
-                entity.Property(e => e.Email).HasMaxLength(256);
-
-                entity.Property(e => e.IsActive)
-                    .IsRequired()
-                    .HasDefaultValueSql("(CONVERT([bit],(1)))");
-
-                entity.Property(e => e.MacAddress).HasMaxLength(50);
-
-                entity.Property(e => e.ModifiedAt).HasDefaultValueSql("('2020-04-07T01:01:37.5261372+02:00')");
-
-                entity.Property(e => e.NormalizedEmail).HasMaxLength(256);
-
-                entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
-
-                entity.Property(e => e.UserName).HasMaxLength(256);
-            });
-
-            modelBuilder.Entity<AspNetUserTokens>(entity =>
-            {
-                entity.HasKey(e => new { e.UserId, e.LoginProvider, e.Name });
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.AspNetUserTokens)
-                    .HasForeignKey(d => d.UserId);
-            });
-
+           
+           
+            
             modelBuilder.Entity<LkpCountries>(entity =>
             {
                 entity.HasKey(e => e.PkCountriesId);
@@ -454,9 +350,9 @@ namespace Entities.Model
                     .WithMany(p => p.TblClient)
                     .HasForeignKey(d => d.FkClientsDistrictsDistrictId);
 
-                entity.HasOne(d => d.Identity)
-                    .WithOne(p => p.TblClient)
-                    .HasForeignKey<TblClient>(d => d.IdentityId);
+                //entity.HasOne(d => d.Identity)
+                //    .WithOne(p => p.TblClient)
+                //    .HasForeignKey<TblClient>(d => d.IdentityId);
             });
 
             modelBuilder.Entity<TblClientAccounts>(entity =>
