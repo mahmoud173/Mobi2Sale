@@ -39,7 +39,7 @@ namespace Mobi2saleProject.Controllers
                     if (User.Identity.IsAuthenticated)
                     {
                         var identityID = User.FindFirstValue(ClaimTypes.NameIdentifier);// will give the user's userId
-                                                                                        //var identityID = User.Identity.GetUserId();
+                      //var identityID = User.Identity.GetUserId();
                         Guid clientId = (await Db.TblClient.FirstOrDefaultAsync(c => c.IdentityId == identityID)).PkClientId;
                         var data = (await Db.TblItems.
                         Where(i => i.FkSubCategoriesItemsSubcategoryId == SubCategoryId && i.IsDeleted != true && i.Quantity > 0).
@@ -90,7 +90,7 @@ namespace Mobi2saleProject.Controllers
                     if (User.Identity.IsAuthenticated)
                     {
                         var identityID = User.FindFirstValue(ClaimTypes.NameIdentifier);// will give the user's userId
-                                                                                        // var identityID = User.Identity.GetUserId();
+                     // var identityID = User.Identity.GetUserId();
                         Guid clientId = (await Db.TblClient.FirstOrDefaultAsync(c => c.IdentityId == identityID)).PkClientId;
 
                         var data = (await Db.TblItems.
@@ -144,9 +144,9 @@ namespace Mobi2saleProject.Controllers
 
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return NotFound();
+                return BadRequest(ex.Message);
             }
            
         }
@@ -284,9 +284,9 @@ namespace Mobi2saleProject.Controllers
 
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return NotFound();
+                return BadRequest(ex.Message);
             }          
         }
 
@@ -327,10 +327,10 @@ namespace Mobi2saleProject.Controllers
                 };
                 return Ok(itemdata);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                return NotFound();
+                return BadRequest( ex.Message);
             }
             
         }

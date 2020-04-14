@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Entities.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using Mobi2saleProject.Dtos;
 
 namespace Mobi2saleProject.Controllers
 {
+    [Authorize]
     [ApiController]
     public class ClientsController : ControllerBase
     {
@@ -32,7 +34,14 @@ namespace Mobi2saleProject.Controllers
                 }
                 HelpFunctionsController helpFunction = new HelpFunctionsController();
                 var IdentityClientId = User.FindFirstValue(ClaimTypes.NameIdentifier);// will give the user's userId
-                  // var IdentityClientId = User.Identity.GetUserId();
+                // var IdentityClientId = User.Identity.GetUserId();
+                
+
+                var IdentityEmail = string.Empty;
+                if (HttpContext.User.Identity is ClaimsIdentity identity)
+                {
+                    IdentityEmail = identity.FindFirst(ClaimTypes.Name).Value;
+                }
               //  var IdentityEmail = await Db.AspNetUsers.FirstOrDefaultAsync(q => q.Id == IdentityClientId);
                 var clientData = await Db.TblClient.FirstOrDefaultAsync(c => c.IdentityId == IdentityClientId);
                 clientData.Name = data.Name;
@@ -41,17 +50,18 @@ namespace Mobi2saleProject.Controllers
                 clientData.Mobile2 = data.Mobile2;
                 clientData.Phone = data.Phone;
                 clientData.Email = data.Email;
-              //  IdentityEmail.Email = data.Email;
+                IdentityEmail = data.Email;
                 clientData.Fax = data.Fax;
                 clientData.ModifiedAt = DateTime.Now;
                 clientData.ModifiedBy = IdentityClientId;
+
                 await Db.SaveChangesAsync();
                 return Ok(data);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
            
         }
@@ -62,12 +72,9 @@ namespace Mobi2saleProject.Controllers
         [Route("api/Clients/ClientViewProfile")]
         public async Task<IActionResult> ClientViewProfile()
         {
-
-
             try
             {
                 var IdentityClientId = User.FindFirstValue(ClaimTypes.NameIdentifier);// will give the user's userId
-
                 // var IdentityClientId = User.Identity.GetUserId();
                 var data = await Db.TblClient.FirstOrDefaultAsync(c => c.IdentityId == IdentityClientId);
                 if (data == null)
@@ -87,9 +94,9 @@ namespace Mobi2saleProject.Controllers
                 };
                 return Ok(clientData);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return NotFound();
+                return BadRequest(ex.Message);
             }
               
         }

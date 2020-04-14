@@ -12,7 +12,7 @@ using Mobi2saleProject.Dtos;
 
 namespace Mobi2saleProject.Controllers
 {
-    [Authorize]
+   [Authorize]
     [ApiController]
     public class OrdersController : ControllerBase
     {

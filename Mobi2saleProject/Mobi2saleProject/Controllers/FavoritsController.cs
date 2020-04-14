@@ -24,12 +24,14 @@ namespace Mobi2saleProject.Controllers
         [Route("api/Favorites/AddOrRemoveFavorite")]                                            
         public async Task<IActionResult> AddOrRemoveFavorite(FavoritsDto data)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
-            }
-                  var _userId = User.FindFirstValue(ClaimTypes.NameIdentifier);// will give the user's userId
-                   // var _userId = User.Identity.GetUserId();
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                var _userId = User.FindFirstValue(ClaimTypes.NameIdentifier);// will give the user's userId
+                                                                             // var _userId = User.Identity.GetUserId();
 
                 Guid clientId = (await Db.TblClient.FirstOrDefaultAsync(q => q.IdentityId == _userId)).PkClientId;
 
@@ -56,13 +58,22 @@ namespace Mobi2saleProject.Controllers
                         FkItemsId = data.ItemID,
                         FkClientId = clientId,
                     };
-                    Db.TblFavorites.Add(newFavorite);
+
+                    await Db.TblFavorites.AddAsync(newFavorite);
                     await Db.SaveChangesAsync();
                     var location = new Uri(HttpContext.Request.Path + "/" + newFavorite.PkFavoritesId.ToString());//I Edit This line
                     data.pk_Favorites_Id = newFavorite.PkFavoritesId;
                     data.ClientId = newFavorite.FkClientId;
                     return Created(location, data);
                 }
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+
+            
         }
 
 
@@ -70,16 +81,18 @@ namespace Mobi2saleProject.Controllers
         [Route("api/Favorites/GetAllFavoritesToClient/{pageNumber}")]            
         public async Task<IActionResult> GetAllFavoritesToClient(int pageNumber)
         {
-            var _userId = User.FindFirstValue(ClaimTypes.NameIdentifier);// will give the user's userId
-           // var _userId = User.Identity.GetUserId();
-            if (_userId == null)
+            try
             {
-                return BadRequest(" Something Went Wrong :( ");
-            }
+                var _userId = User.FindFirstValue(ClaimTypes.NameIdentifier);// will give the user's userId
+                                                                             // var _userId = User.Identity.GetUserId();
+                if (_userId == null)
+                {
+                    return BadRequest(" Something Went Wrong :( ");
+                }
 
-            int numberOfObjectsPerPage = 15;
+                int numberOfObjectsPerPage = 15;
 
-            int skip = numberOfObjectsPerPage * (pageNumber - 1);
+                int skip = numberOfObjectsPerPage * (pageNumber - 1);
 
                 Guid clientId = (await Db.TblClient.FirstOrDefaultAsync(q => q.IdentityId == _userId)).PkClientId;
                 var FavoritesData = (await Db.TblFavorites.Where(f => f.FkClientId == clientId).
@@ -101,6 +114,13 @@ namespace Mobi2saleProject.Controllers
 
                 }).ToListAsync());
                 return Ok(FavoritesData);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+           
             
         }
 
@@ -108,9 +128,11 @@ namespace Mobi2saleProject.Controllers
 
         private async Task<bool> RemoveItemFromFavorites(Guid itemId, Guid clientId)         
         {
+            try
+            {
                 if (itemId == null)
                 {
-                     return false;
+                    return false;
                 }
 
                 var FavoritesData = (await Db.TblFavorites.FirstOrDefaultAsync(f => f.FkItemsId == itemId && f.FkClientId == clientId));
@@ -124,6 +146,14 @@ namespace Mobi2saleProject.Controllers
                 {
                     return false;
                 }
+            }
+            catch (Exception ex)
+            {
+
+                return false;
+
+            }
+
         }
 
     }
